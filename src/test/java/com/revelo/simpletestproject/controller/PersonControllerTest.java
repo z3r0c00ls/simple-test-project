@@ -144,6 +144,25 @@ public class PersonControllerTest {
     @Test
     @Order(4)
     public void updatePerson() throws Exception {
+
+        Mockito.when(
+                personService.update(Mockito.anyLong(), Mockito.any(Person.class))).thenReturn(true);
+
+        RequestBuilder requestBuilder = MockMvcRequestBuilders
+                .put("/person/1")
+                .accept(MediaType.APPLICATION_JSON).content(personMockOtherJson)
+                .contentType(MediaType.APPLICATION_JSON);
+
+        MvcResult result = mockMvc.perform(requestBuilder).andReturn();
+
+        Long expected = 1L;
+
+        JSONAssert.assertEquals(String.valueOf(expected), result.getResponse().getContentAsString(), false);
+    }
+
+    @Test
+    @Order(5)
+    public void notPerformUpdatePerson() throws Exception {
         String personMockOtherOtherJson =
                 "{\n" +
                         "\"id\": -1,\n" +
@@ -153,18 +172,18 @@ public class PersonControllerTest {
                         "}";
 
         Mockito.when(
-                personService.update(Mockito.anyLong(), Mockito.any(Person.class))).thenReturn(true);
+                personService.update(Mockito.anyLong(), Mockito.any(Person.class))).thenReturn(false);
 
         RequestBuilder requestBuilder = MockMvcRequestBuilders
-                .put("/person/1")
+                .put("/person/666")
                 .accept(MediaType.APPLICATION_JSON).content(personMockOtherOtherJson)
                 .contentType(MediaType.APPLICATION_JSON);
 
         MvcResult result = mockMvc.perform(requestBuilder).andReturn();
 
-        Long expected = 1L;
+        String expected = "";
 
-        JSONAssert.assertEquals(String.valueOf(expected), result.getResponse().getContentAsString(), false);
+        assertEquals(expected, result.getResponse().getContentAsString());
     }
 
     @Test

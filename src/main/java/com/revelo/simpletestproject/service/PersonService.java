@@ -12,7 +12,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 @Service
 public class PersonService {
 
-    private static final List<Person> personList = new ArrayList<>();
+    static final List<Person> personList = new ArrayList<>();
 
     LocalDate today = LocalDate.of(1965, Month.JANUARY,1);
 
