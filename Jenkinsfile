@@ -18,7 +18,8 @@ pipeline {
                 echo 'SonarQube'
                 def scannerHome = tool 'sonarqubeserver';
                 withSonarQubeEnv(credentialsId: 'JenkinsTokenSonar', installationName: 'sonarqubeserver') {
-                    sh "$SONNAR_HOME/bin/sonar-scanner -Dproject.settings='sonar-project.properties'"
+                    // sh "$SONNAR_HOME/bin/sonar-scanner -Dproject.settings='sonar-project.properties'"
+                    sh "${scannerHome}/bin/sonar-scanner -Dproject.settings='sonar-project.properties'"
                 }
             }
         }
